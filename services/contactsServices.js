@@ -52,7 +52,7 @@ async function removeContact(contactId) {
 
 
 
-module.exports = {
+exports = {
     listContacts,
     getContactById,
     removeContact,
