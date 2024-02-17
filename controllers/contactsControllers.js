@@ -3,10 +3,11 @@ import {
     getContactById,
     removeContact,
     addContact,
+    updContacts,
 } from '../services/contactsServices.js'
 
 import { createContactSchema } from "../schemas/contactsSchemas.js";
-
+import {updateContactSchema} from '../schemas/contactsSchemas.js'
 
 
 export const getAllContacts = async (req, res) => {
@@ -68,4 +69,19 @@ export const createContact = async (req, res) => {
 };
 
 
-export const updateContact = (req, res) => {};
+export const updateContact = async (req, res) => {
+    try {
+    const { error } = updateContactSchema.validate(req.body);
+    if (error) {
+      throw HttpError(400, error.message);
+    }
+    const { id } = req.params;
+    const result = await updContacts(id, req.body);
+    if (!result) {
+      throw HttpError(404, "Not found");
+    }
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
