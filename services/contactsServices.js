@@ -43,7 +43,7 @@ export async function removeContact(contactId) {
     const contacts = await listContacts();
     const index = contacts.findIndex(item => item.id === contactId);
     if (index === -1) {
-        return null;        
+        return { message: 'Not found' };        
     }
     const [result] = contacts.splice(index, 1);
     await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
