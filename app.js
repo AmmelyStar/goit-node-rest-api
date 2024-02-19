@@ -1,8 +1,20 @@
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
-
 import contactsRouter from "./routes/contactsRouter.js";
+import mongoose from "mongoose";
+const DB_HOST = "mongodb+srv://Ammely:sJWdmiPiaMkQfuVi@cluster0.fao8nvs.mongodb.net/db-contacts";
+mongoose.connect(DB_HOST)
+  .then(() => {
+    app.listen(5000)
+    console.log("Database connection successful")
+
+  })
+  .catch(error => {
+    console.log(error.message);
+    process.exit(1);
+
+  });
 
 const app = express();
 
@@ -21,6 +33,3 @@ app.use((err, req, res, next) => {
   res.status(status).json({ message });
 });
 
-app.listen(5000, () => {
-  console.log("Server is running. Use our API on port: 5000");
-});
