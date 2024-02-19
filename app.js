@@ -3,7 +3,7 @@ import morgan from "morgan";
 import cors from "cors";
 import contactsRouter from "./routes/contactsRouter.js";
 import mongoose from "mongoose";
-const DB_HOST = "mongodb+srv://Ammely:sJWdmiPiaMkQfuVi@cluster0.fao8nvs.mongodb.net/db-contacts";
+import { DB_HOST } from "./config.js";
 mongoose.connect(DB_HOST)
   .then(() => {
     app.listen(5000)
