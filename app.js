@@ -4,6 +4,11 @@ import cors from "cors";
 import contactsRouter from "./routes/contactsRouter.js";
 import mongoose from "mongoose";
 import { DB_HOST } from "./config.js";
+import authRouter from './routes/auth.js'
+
+
+
+
 mongoose.connect(DB_HOST)
   .then(() => {
     app.listen(5000)
@@ -17,7 +22,7 @@ mongoose.connect(DB_HOST)
   });
 
 const app = express();
-
+app.use("/api/auth", authRouter);
 app.use(morgan("tiny"));
 app.use(cors());
 app.use(express.json());
