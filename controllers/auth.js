@@ -4,8 +4,6 @@ import  {registerSchema}  from '../db/user.js'
 import {HttpError}  from "../helpers/HttpError.js";
 
 export const registration = async (req, res) => {
-
-    
         try {
         const validationResult = registerSchema.validate(req.body);
        if (validationResult.error) {
