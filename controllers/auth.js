@@ -10,7 +10,8 @@ export const registration = async (req, res) => {
         }
         const newUser = await User.create(req.body);
         res.status(201).json(newUser);
-    } catch (error) {
+        } catch (error) {
+            console.log(error)
         res.status(500).json({
             message: 'Server error'
         });
