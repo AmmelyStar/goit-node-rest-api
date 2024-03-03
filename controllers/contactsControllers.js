@@ -8,8 +8,11 @@ import {updateContactSchema} from '../schemas/contactsSchemas.js'
 import {updateFavoriteSchema} from '../schemas/contactsSchemas.js'
 
 export const getAllContacts = async (req, res) => {
-    try {
-        const contacts = await Contact.find();
+  try {
+    const { _id: owner } = req.user;
+    const { page = 1, limit = 10 } = req.query;
+    const skip = (page - 1) * limit;
+        const contacts = await Contact.find({owner}, {skip, limit}).populate("owner", "name email");
               res.status(200).json(contacts);
     } catch (error) {
         res.status(500).json({
@@ -19,12 +22,14 @@ export const getAllContacts = async (req, res) => {
 };
 
 export const createContact = async (req, res) => {
+   
     try {
         const validationResult = createContactSchema.validate(req.body);
        if (validationResult.error) {
             return res.status(400).json({ message: validationResult.error.message });
-        }
-        const newContact = await Contact.create(req.body);
+      }
+         const {_id: owner } = req.user;
+        const newContact = await Contact.create({...req.body, owner});
         res.status(201).json(newContact);
     } catch (error) {
         res.status(500).json({
