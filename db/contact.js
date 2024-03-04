@@ -3,6 +3,7 @@ import { Schema, model } from "mongoose";
 
 export const contactSchema = new Schema(
     {
+         
         name: {
             type: String,
             required: [true, 'Set name for contact'],
@@ -17,6 +18,11 @@ export const contactSchema = new Schema(
             type: Boolean,
             default: false,
         },
+         owner: {
+                type: Schema.Types.ObjectId,
+             ref: 'user',
+            // required: true,
+    }
     }
 );
 
