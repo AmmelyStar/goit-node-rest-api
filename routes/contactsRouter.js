@@ -1,6 +1,6 @@
 import express from "express";
 import {authenticate} from '../helpers/authenticate.js'
-  
+
 
 import {
   getAllContacts,
