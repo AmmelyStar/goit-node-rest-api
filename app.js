@@ -5,7 +5,7 @@ import contactsRouter from "./routes/contactsRouter.js";
 import mongoose from "mongoose";
 import { DB_HOST } from "./config.js";
 import authRouter from './routes/auth.js'
-import multer from "multer";
+// import multer from "multer";
 
 
 
@@ -26,17 +26,18 @@ const app = express();
 app.use(morgan("tiny"));
 app.use(cors());
 app.use(express.json());
+app.use(express.static("public/avatars"));
 
 app.use("/api/auth", authRouter);
 
 app.use("/api/contacts", contactsRouter);
 
-export const multerConfig = multer.diskStorage({
-  destination: "./public/avatars",
-  filename: (req, file, cb) => {
-    cb(null, file.originalname);
-  }
-})
+// export const multerConfig = multer.diskStorage({
+//   destination: "./public/avatars",
+//   filename: (req, file, cb) => {
+//     cb(null, file.originalname);
+//   }
+// })
 
 // export const upload = multer({
 //   storage: multerConfig

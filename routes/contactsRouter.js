@@ -1,5 +1,8 @@
 import express from "express";
-import {authenticate} from '../helpers/authenticate.js'
+import { authenticate } from '../helpers/authenticate.js'
+// import {upload} from '../app.js'
+import multer from "multer";
+import fs from "fs/promises";
 
 
 import {
@@ -13,14 +16,27 @@ import {
 
 const contactsRouter = express.Router();
 
+export const multerConfig = multer.diskStorage({
+  destination: "tmp",
+  filename: (req, file, cb) => {
 
-contactsRouter.get("/", authenticate, getAllContacts);
+    cb(null, file.originalname);
+  }
+})
 
-contactsRouter.get("/:id", authenticate, getOneContact);
+export const upload = multer({
+  storage: multerConfig
+})
+
+
+contactsRouter.get("/", authenticate, upload.single("avatar"), getAllContacts);
+
+
+contactsRouter.get("/:id", authenticate, upload.single("avatar"), getOneContact);
 
  contactsRouter.delete("/:id", authenticate, deleteContact);
 
-contactsRouter.post("/", authenticate, createContact);
+contactsRouter.post("/", authenticate, upload.single("avatar"), createContact);
 
 contactsRouter.put("/:id", authenticate, updateContact);
 
