@@ -25,9 +25,9 @@ export const getAllContacts = async (req, res) => {
 
 export const createContact = async (req, res) => {
  
-  const { path: tmpUpload, originalname } = req.file;
-  const resultUpload = `./public/avatars/${originalname}`;
-   await fs.rename(tmpUpload, resultUpload);
+  // const { path: tmpUpload, originalname } = req.file;
+  // const resultUpload = `./public/avatars/${originalname}`;
+  //  await fs.rename(tmpUpload, resultUpload);
    
     try {
         const validationResult = createContactSchema.validate(req.body);
