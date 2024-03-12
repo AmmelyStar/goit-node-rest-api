@@ -6,6 +6,8 @@ import jwt from "jsonwebtoken"
 import { SECRET_KEY } from "../config.js";
 import gravatar from 'gravatar';
 import fs from "fs/promises"
+import path from "path";
+import Jimp from "jimp";
 
 export const registration = async (req, res) => {
     const { email, password } = req.body;
@@ -82,11 +84,20 @@ export const logout = async (req, res) => {
 
 export const updateAvatar = async (req, res) => {
     const { _id } = req.user;
-     const { path: tmpUpload, originalname } = req.file;
-  const resultUpload = `./public/avatars/${originalname}`;
+    const { path: tmpUpload, originalname } = req.file;
+    const filename = `${_id}_${originalname}`;
+  const resultUpload = `./public/avatars/${filename}`;
     await fs.rename(tmpUpload, resultUpload);
-    const avatarURL = path.join(resultUpload, originalname);
+
+    const img = await Jimp.read(resultUpload);
+    await img.resize(250, 250).write(resultUpload);
+
+
+    const avatarURL = path.join(resultUpload, filename);
     await User.findByIdAndUpdate(_id, { avatarURL });
+    res.json({
+        avatarURL,
+    })
     
 }
     
