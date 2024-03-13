@@ -2,11 +2,12 @@
 
 
 import { Contact } from '../db/contact.js';
+import { User } from '../db/user.js';
 
 import { createContactSchema } from "../schemas/contactsSchemas.js";
 import {updateContactSchema} from '../schemas/contactsSchemas.js'
 import { updateFavoriteSchema } from '../schemas/contactsSchemas.js'
-import { resultUpload } from '../'
+import path from "path";
 
 
 import fs from "fs/promises";
@@ -25,7 +26,7 @@ export const getAllContacts = async (req, res) => {
     }
 };
 
-export const createContact = async (req, res) => {
+export const createContact = async (req, res) => {  
    
     try {
         const validationResult = createContactSchema.validate(req.body);
@@ -33,7 +34,7 @@ export const createContact = async (req, res) => {
             return res.status(400).json({ message: validationResult.error.message });
       }
          const {_id: owner } = req.user;
-        const newContact = await Contact.create({...req.body, resultUpload, owner});
+        const newContact = await Contact.create({...req.body, owner});
         res.status(201).json(newContact);
     } catch (error) {
         res.status(500).json({

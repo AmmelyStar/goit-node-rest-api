@@ -82,6 +82,7 @@ export const logout = async (req, res) => {
     
 }
 
+
 export const updateAvatar = async (req, res) => {
     const { _id } = req.user;
     const { path: tmpUpload, originalname } = req.file;
