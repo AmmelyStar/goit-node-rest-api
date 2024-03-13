@@ -32,16 +32,6 @@ app.use("/api/auth", authRouter);
 
 app.use("/api/contacts", contactsRouter);
 
-// export const multerConfig = multer.diskStorage({
-//   destination: "./public/avatars",
-//   filename: (req, file, cb) => {
-//     cb(null, file.originalname);
-//   }
-// })
-
-// export const upload = multer({
-//   storage: multerConfig
-// })
 
 app.use((_, res) => {
   res.status(404).json({ message: "Route not found" });
