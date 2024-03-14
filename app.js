@@ -3,9 +3,9 @@ import morgan from "morgan";
 import cors from "cors";
 import contactsRouter from "./routes/contactsRouter.js";
 import mongoose from "mongoose";
-import { DB_HOST } from "./config.js";
+import { DB_HOST } from "./configuration.js";
 import authRouter from './routes/auth.js'
-// import multer from "multer";
+
 
 
 
@@ -48,3 +48,43 @@ app.use((err, req, res, next) => {
 
 
 
+
+// export const nodemailerConfig = {
+//     host: "smtp.meta.ua",
+//     port: 465,
+//     secure: true,
+//     auth: {
+//         user: "ammelymm@meta.ua",
+//         pass: META_PASSWORD
+//     }
+// };
+
+// export const transport = nodemailer.createTransport(nodemailerConfig);
+
+
+
+
+
+// export const emailOptions = {
+//     from: ' ammelymm@meta.ua', // sender address
+//     to: "ammelymm@i.ua", // list of receivers
+//     subject: "Hello ✔", // Subject line
+//     text: "Hello world?", // plain text body
+//     html: "<b>Hello world?</b>", // html body
+// };
+// export const sendEmail = async (emailOptions) => {
+//   try {
+//     await transport.sendMail(emailOptions);
+//     console.log("Email sent successfully");
+//   } catch (error) {
+//     console.error("Error sending email:", error.message);
+//   }
+// };
+
+// sendEmail(emailOptions);
+  
+
+
+  
+
+  

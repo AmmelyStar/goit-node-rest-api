@@ -28,7 +28,17 @@ export const userSchema = new Schema({
     avatarURL: {
          type: String,
         default: gravatar.url(),
-    }
+    },
+    
+  verify: {
+    type: Boolean,
+    default: false,
+  },
+  verificationToken: {
+    type: String,
+    default: "",
+  },
+
 
 }, { versionKey: false, timestamps: true });
 
