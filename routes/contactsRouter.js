@@ -1,6 +1,9 @@
 import express from "express";
-import {authenticate} from '../helpers/authenticate.js'
-  
+import { authenticate } from '../helpers/authenticate.js'
+
+// import multer from "multer";
+
+
 
 import {
   getAllContacts,
@@ -14,13 +17,14 @@ import {
 const contactsRouter = express.Router();
 
 
-contactsRouter.get("/", authenticate, getAllContacts);
+contactsRouter.get("/", authenticate,  getAllContacts);
 
-contactsRouter.get("/:id", authenticate, getOneContact);
+
+contactsRouter.get("/:id", authenticate,  getOneContact);
 
  contactsRouter.delete("/:id", authenticate, deleteContact);
 
-contactsRouter.post("/", authenticate, createContact);
+contactsRouter.post("/", authenticate,  createContact);
 
 contactsRouter.put("/:id", authenticate, updateContact);
 

@@ -5,14 +5,15 @@ import { Contact } from '../db/contact.js';
 
 import { createContactSchema } from "../schemas/contactsSchemas.js";
 import {updateContactSchema} from '../schemas/contactsSchemas.js'
-import {updateFavoriteSchema} from '../schemas/contactsSchemas.js'
+import { updateFavoriteSchema } from '../schemas/contactsSchemas.js'
+
 
 export const getAllContacts = async (req, res) => {
   try {
     const { _id: owner } = req.user;
     const { page = 1, limit = 10 } = req.query;
     const skip = (page - 1) * limit;
-        const contacts = await Contact.find({owner}, {skip, limit}).populate("owner", "name email");
+        const contacts = await Contact.find({owner}, "-createdAt -updatedAt", {skip, limit,}).populate("owner", "name email");
               res.status(200).json(contacts);
     } catch (error) {
         res.status(500).json({
@@ -21,7 +22,7 @@ export const getAllContacts = async (req, res) => {
     }
 };
 
-export const createContact = async (req, res) => {
+export const createContact = async (req, res) => {  
    
     try {
         const validationResult = createContactSchema.validate(req.body);

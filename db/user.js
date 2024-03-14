@@ -1,6 +1,7 @@
 import { Schema, model } from "mongoose";
 
 import Joi from "joi";
+import gravatar from 'gravatar';
 
 
 
@@ -24,6 +25,10 @@ export const userSchema = new Schema({
         type: String,
         default: null,
     },
+    avatarURL: {
+         type: String,
+        default: gravatar.url(),
+    }
 
 }, { versionKey: false, timestamps: true });
 

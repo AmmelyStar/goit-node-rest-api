@@ -4,6 +4,10 @@ import{ HttpError} from "../helpers/HttpError.js"
 import bcrypt from "bcryptjs/dist/bcrypt.js";
 import jwt from "jsonwebtoken"
 import { SECRET_KEY } from "../config.js";
+import gravatar from 'gravatar';
+import fs from "fs/promises"
+import path from "path";
+import Jimp from "jimp";
 
 export const registration = async (req, res) => {
     const { email, password } = req.body;
@@ -19,10 +23,11 @@ export const registration = async (req, res) => {
             return res.status(400).json({ message: validationResult.error.message });
             }
             
-   const hashPassword = await bcrypt.hash(password, 10);
+            const hashPassword = await bcrypt.hash(password, 10);
+            const avatarURL = gravatar.url(email);
 
 
-        const newUser = await User.create({...req.body, password: hashPassword});
+        const newUser = await User.create({...req.body, password: hashPassword, avatarURL});
         res.status(201).json(newUser);
         } catch (error) {
             console.log(error)
@@ -73,6 +78,26 @@ export const logout = async (req, res) => {
 
     res.json({
         message: "Logout success"
+    })
+    
+}
+
+
+export const updateAvatar = async (req, res) => {
+    const { _id } = req.user;
+    const { path: tmpUpload, originalname } = req.file;
+    const filename = `${_id}_${originalname}`;
+  const resultUpload = `./public/avatars/${filename}`;
+    await fs.rename(tmpUpload, resultUpload);
+
+    const img = await Jimp.read(resultUpload);
+    await img.resize(250, 250).write(resultUpload);
+
+
+    const avatarURL = path.join(resultUpload, filename);
+    await User.findByIdAndUpdate(_id, { avatarURL });
+    res.json({
+        avatarURL,
     })
     
 }
