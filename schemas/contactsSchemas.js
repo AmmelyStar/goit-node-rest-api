@@ -19,3 +19,4 @@ export const updateFavoriteSchema = Joi.object({
     favorite: Joi.boolean().required()
 
 })
+

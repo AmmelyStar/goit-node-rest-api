@@ -10,6 +10,7 @@ import path from "path";
 import Jimp from "jimp";
 import { nanoid } from "nanoid";
 import { sendEmail } from "../helpers/nodemailer.js";
+import { emailSchema } from '../db/user.js'
 
 
 export const registration = async (req, res) => {
@@ -65,26 +66,39 @@ export const verifyEmail = async (req, res) => {
 export const resendVerifyEmail = async (req, res) => {
     const { email } = req.body;
     const user = await User.findOne({ email });
-    if (!user) {
-         throw HttpError(401, "Email not found")        
-    }
-    if (user.verify) {
-         throw HttpError(401, "Email already verify")                
-    }
+
+    try {
+        const validationResult = emailSchema.validate(req.body);
+        if (validationResult.error) {
+            return res.status(400).json({ message: validationResult.error.message });
+        }
+
+        if (!user) {
+            return res.status(401).json({ message: "Email not found" });       
+        }
+
+        if (user.verify) {
+            return res.status(401).json({ message: "Email already verify" });               
+        }
 
         const verifyEmail = {
             to: email,
             subject: "Verify email",
-                html: `<a target="_blank" href="http://localhost:5000/api/auth/verify/${user.verificationToken}">Click verify email </a>`
-            }
-            
-    await sendEmail(verifyEmail);
-    
-    res.json({
-        message: "Verify email send success"
-    })
-}
-
+            html: `<a target="_blank" href="http://localhost:5000/api/auth/verify/${user.verificationToken}">Click verify email </a>`
+        };
+        
+        await sendEmail(verifyEmail);
+        
+        res.json({
+            message: "Verify email send success"
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            message: 'Server error'
+        });
+    }
+};
 
 
 
