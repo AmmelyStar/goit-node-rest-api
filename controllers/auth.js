@@ -3,7 +3,7 @@ import { registerSchema } from '../db/user.js'
 import{ HttpError} from "../helpers/HttpError.js"
 import bcrypt from "bcryptjs/dist/bcrypt.js";
 import jwt from "jsonwebtoken"
-import { SECRET_KEY } from "../config.js";
+import { SECRET_KEY } from "../configuration.js";
 import gravatar from 'gravatar';
 import fs from "fs/promises"
 import path from "path";

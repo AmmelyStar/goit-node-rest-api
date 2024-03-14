@@ -1,6 +1,6 @@
 import  {HttpError}  from "../helpers/HttpError.js";
 import jwt from "jsonwebtoken"
-import { SECRET_KEY } from "../config.js";
+import { SECRET_KEY } from "../configuration.js";
 import {User} from "../db/user.js"
 
 export const authenticate = async (req, res, next) => {
